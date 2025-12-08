@@ -1,16 +1,12 @@
 ---
-version: 2.2.0
+version: 2.2.1
 slug: tellstick
-name: TellStick [deprecated]
+name: TellStick
 description: TellStick and TellStick Duo service
-url: https://github.com/home-assistant/addons/tree/master/tellstick
+url: https://github.com/michaelarnauts/home-assistant-tellstick-addon/tree/master/tellstick
 arch:
-  - armhf
-  - armv7
-  - aarch64
   - amd64
-  - i386
-image: homeassistant/{arch}-addon-tellstick
+image: michaelarnauts/home-assistant-tellstick-addon
 options:
   devices:
     - house: A
@@ -42,4 +38,3 @@ startup: system
 stdin: true
 usb: true
 init: false
-stage: deprecated
