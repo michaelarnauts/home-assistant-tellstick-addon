@@ -5,6 +5,7 @@ name: TellStick
 description: TellStick and TellStick Duo service
 url: https://github.com/michaelarnauts/home-assistant-tellstick-addon/tree/master/tellstick
 arch:
+  - aarch64
   - amd64
 image: michaelarnauts/home-assistant-tellstick-addon
 options:

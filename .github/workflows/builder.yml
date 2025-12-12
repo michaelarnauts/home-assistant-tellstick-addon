@@ -13,8 +13,16 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-24.04
-    name: Build amd64 tellstick add-on
+    runs-on: ${{ matrix.runs-on }}
+    name: Build ${{ matrix.arch }} tellstick add-on
+    strategy:
+      matrix:
+        arch: ["aarch64", "amd64"]
+        include:
+          - arch: amd64
+            runs-on: ubuntu-24.04
+          - arch: aarch64
+            runs-on: ubuntu-24.04-arm
 
     steps:
       - name: Check out repository
@@ -36,9 +44,9 @@ jobs:
       - name: Build tellstick add-on
         uses: home-assistant/builder@2025.11.0
         with:
-          image: amd64
+          image: ${{ matrix.arch }}
           args: |
             ${{ env.BUILD_ARGS }} \
-            --amd64 \
+            --${{ matrix.arch }} \
             --target /data/tellstick \
             --addon
