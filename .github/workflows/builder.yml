@@ -28,7 +28,23 @@ jobs:
       - name: Check out repository
         uses: actions/checkout@v6.0.0
 
+      - name: Get information
+        id: info
+        uses: home-assistant/actions/helpers/info@master
+        with:
+          path: "./tellstick"
+
+      - name: Check add-on
+        id: check
+        run: |
+          if [[ "${{ steps.info.outputs.architectures }}" =~ ${{ matrix.arch }} ]]; then
+             echo "build_arch=true" >> "$GITHUB_OUTPUT";
+           else
+             echo "${{ matrix.arch }} is not a valid arch for tellstick, skipping build";
+          fi
+
       - name: Set build arguments
+        if: steps.check.outputs.build_arch == 'true'
         run: |
           if [[ -z "${{ github.head_ref }}" ]] && [[ "${{ github.event_name }}" == "push" ]]; then
               echo "BUILD_ARGS=--docker-hub-check" >> $GITHUB_ENV;
@@ -42,6 +58,7 @@ jobs:
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
       - name: Build tellstick add-on
+        if: steps.check.outputs.build_arch == 'true'
         uses: home-assistant/builder@2025.11.0
         with:
           image: ${{ matrix.arch }}
